@@ -10,11 +10,21 @@ namespace MVCProject.Controllers
     public class EmployeeController : Controller
     {
         // GET: Employee
-        public ActionResult Index()
+        public ActionResult Index(string searchBy, string search)
         {
-            EmployeeBusinessLayer employeeBusiness = new EmployeeBusinessLayer();
-            List<Employee> employees = employeeBusiness.Employees.ToList();
-            return View(employees);
+            if (searchBy == "gender")
+            {
+                EmployeeBusinessLayer employeeBusiness = new EmployeeBusinessLayer();
+                List<Employee> employees = employeeBusiness.Employees.Where(x => x.gender == search || search == null).ToList();
+                return View(employees);
+            }
+            else
+            {
+                EmployeeBusinessLayer employeeBusiness = new EmployeeBusinessLayer();
+                List<Employee> employees = employeeBusiness.Employees.Where(x => x.name == search || search == null).ToList();
+                return View(employees);
+            }
+
         }
 
         [HttpGet]

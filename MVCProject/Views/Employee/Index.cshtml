@@ -10,6 +10,15 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
+<p>
+    @using (Html.BeginForm("Index", "Employee", FormMethod.Get))
+    {
+        <b>Search By:</b> @Html.RadioButton("searchBy", "name", true)<text>Name</text>
+        @Html.RadioButton("searchBy", "gender") <text>Gender</text><br />
+        @Html.TextBox("search") <input type="submit" value="search" />
+    }
+
+</p>
 <table class="table">
     <tr>
         <th>
@@ -27,7 +36,14 @@
         <th></th>
     </tr>
 
-    @foreach (var item in Model)
+    @if(Model.Count() == 0)
+    {
+        <tr>
+            <td colspan="5"> No rows match search criteria</td>
+        </tr>
+    }
+    else { 
+    foreach (var item in Model)
     {
         using (Html.BeginForm("Delete", "Employee", new { id = item.id }))
         {
@@ -55,5 +71,6 @@
             </tr>
             }
         }
+    }
 
 </table>
